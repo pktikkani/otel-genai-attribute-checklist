@@ -5,7 +5,7 @@ description = "Reproducible OpenTelemetry GenAI attribute checklist PDF"
 requires-python = ">=3.12"
 dependencies = [
   "jinja2>=3.1,<4",
-  "weasyprint>=66,<67",
+  "weasyprint>=66,<71",
 ]
 
 [dependency-groups]
