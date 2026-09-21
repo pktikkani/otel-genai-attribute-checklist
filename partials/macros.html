@@ -1,0 +1,55 @@
+{% macro requirement(row) -%}
+  <span class="pill {{ row.requirement_kind }}">{{ row.requirement_label }}</span>
+  {% if row.requirement_detail %}<span class="condition">{{ row.requirement_detail }}</span>{% endif %}
+{%- endmacro %}
+
+{% macro conventions(block) -%}
+  {% if block.span_name or block.span_kind %}
+  <div class="convention-strip">
+    {% if block.span_name %}<div><span>Span name</span><code>{{ block.span_name }}</code></div>{% endif %}
+    {% if block.span_kind %}<div><span>Span kind</span><code>{{ block.span_kind }}</code></div>{% endif %}
+  </div>
+  {% endif %}
+{%- endmacro %}
+
+{% macro attribute_table(table, compact=false) -%}
+  <article class="checklist-block{% if compact %} short-checklist{% endif %}">
+    <div class="table-title-row">
+      <h3>{{ table.title }}</h3>
+      <a class="source-link" href="{{ table.source_url }}">source &#8599;</a>
+    </div>
+    {{ conventions(table.conventions) }}
+    {% if table.note %}<p class="note">{{ table.note }}</p>{% endif %}
+    <table class="attribute-table{% if compact %} compact-attributes{% endif %}">
+      {% if compact %}
+      <colgroup><col class="tick"><col class="attribute"><col class="type"><col class="requirement"><col class="description"></colgroup>
+      <thead><tr><th>&#9744;</th><th>Attribute</th><th>Type</th><th>Requirement level</th><th>Short description</th></tr></thead>
+      {% else %}
+      <colgroup><col class="tick"><col class="attribute"><col class="type"><col class="requirement"><col class="description"><col class="example"></colgroup>
+      <thead><tr><th>&#9744;</th><th>Attribute</th><th>Type</th><th>Requirement level</th><th>Short description</th><th>Example</th></tr></thead>
+      {% endif %}
+      <tbody>
+      {% for row in table.rows %}
+        <tr>
+          <td class="tick-cell">&#9744;</td>
+          <td class="attr-cell">{% if row.registry_anchor %}<a href="#{{ row.registry_anchor }}"><code>{{ row.name }}</code></a>{% else %}<code>{{ row.name }}</code>{% endif %}<span class="stability {{ row.stability|lower|replace(' ', '-') }}">{{ row.stability }}</span></td>
+          <td><code>{{ row.value_type }}</code></td>
+          <td>{{ requirement(row) }}</td>
+          <td>{{ row.description }}</td>
+          {% if not compact %}<td class="example-cell">{{ row.example }}</td>{% endif %}
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </article>
+{%- endmacro %}
+
+{% macro metric_block(metric, compact=false) -%}
+  <article class="metric-block{% if compact %} short-metric{% endif %}">
+    <div class="table-title-row"><h3><code>{{ metric.name }}</code></h3><a class="source-link" href="{{ metric.source_url }}">source &#8599;</a></div>
+    <table class="metric-meta"><thead><tr><th>Instrument</th><th>Unit</th><th>Stability</th><th>Description</th></tr></thead><tbody><tr><td>{{ metric.instrument }}</td><td><code>{{ metric.unit }}</code></td><td><span class="stability {{ metric.stability|lower|replace(' ', '-') }}">{{ metric.stability }}</span></td><td>{{ metric.description }}</td></tr></tbody></table>
+    <table class="metric-attributes"><thead><tr><th>&#9744;</th><th>Key attribute</th><th>Requirement</th></tr></thead><tbody>
+      {% for row in metric.attributes %}<tr><td class="tick-cell">&#9744;</td><td><code>{{ row.name }}</code></td><td>{{ requirement(row) }}</td></tr>{% endfor %}
+    </tbody></table>
+  </article>
+{%- endmacro %}

@@ -1,0 +1,24 @@
+{
+  "commit": "c88d504ab3d9879f8e50d3cc87e69775e11db234",
+  "files": {
+    "LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "docs/gen-ai/README.md": "4145af3ec45572af5e539b6c778019b3d82561f355995d2ec1ba14722b165f39",
+    "docs/gen-ai/anthropic.md": "63b538ee3a0a56e8eb57ebb2e6105e0c12dff70bf348a1d6eefbfb03564ac9b9",
+    "docs/gen-ai/aws-bedrock.md": "e75b8fa370e0d092465761f80d1394a113a53d532f7dc7e48f13117effc1191c",
+    "docs/gen-ai/azure-ai-inference.md": "b30ec18fa8b974d2d4b67980a1375ef3d6a6255ba7351b3a3daa2e82e0fdb69d",
+    "docs/gen-ai/gen-ai-agent-spans.md": "8363cc776fa9acc09345411bb1e09c162b7df785925f35e072ab6093bd18ba97",
+    "docs/gen-ai/gen-ai-events.md": "10f21c0bf84e66da34dc1849b5edec570ff0a2882048875ac759b8d89a0986d0",
+    "docs/gen-ai/gen-ai-exceptions.md": "b4b7eab5debce2e1c2a07054870e63fa41fee3fd63a7cb21a8abfbf8bc2a05bf",
+    "docs/gen-ai/gen-ai-metrics.md": "afe9d852b4122d9300d999aec3979a318b840dbd6410ba63004aa320033cda77",
+    "docs/gen-ai/gen-ai-spans.md": "fee65ca0862b3fcd4254bc57957314e72eaf4399390797e603f7b82be7e5d987",
+    "docs/gen-ai/mcp.md": "d5eb3b023f553c56052a07aecf3384ac5f64f894825c72eacf8c0eeda3c49a26",
+    "docs/gen-ai/non-normative/examples-llm-calls.md": "1f4088d0abc1767c39a8968b99ab8056f016fb3a0f6342fb6d34cee2ccef8cc6",
+    "docs/gen-ai/openai.md": "cf730841360afa12866d4204cbadfae2e3b72d8ff50bf558eb31e65cddad595f",
+    "docs/registry/attributes/aws.md": "bfb2d5beb8dfd44c68319b41c5a0cf4debb704efcc646f6575df0941fe62b1c5",
+    "docs/registry/attributes/gen-ai.md": "cf861d8841561d4fe24f51c14262b717db4db66ba0f8b0069fd19a0ef60231d1",
+    "docs/registry/attributes/mcp.md": "1d2060fa8e043efecfb508226e140b4b361e80944e9c153483aaebc567ff12d2",
+    "docs/registry/attributes/openai.md": "baac68354fa4d063953d18b41d245fe5ba387d2a9d1e4dc9c1ef0d4fc0060fcd"
+  },
+  "raw_root": "https://raw.githubusercontent.com/open-telemetry/semantic-conventions-genai/c88d504ab3d9879f8e50d3cc87e69775e11db234",
+  "repository": "https://github.com/open-telemetry/semantic-conventions-genai"
+}

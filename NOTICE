@@ -1,0 +1,8 @@
+OpenTelemetry GenAI Attribute Checklist
+
+This work includes attribute definitions derived from work by the OpenTelemetry Authors:
+
+- https://github.com/open-telemetry/semantic-conventions-genai/tree/c88d504ab3d9879f8e50d3cc87e69775e11db234
+- https://github.com/open-telemetry/semantic-conventions/tree/d0472f4ae331e8ef01aa571fe024d0d6a1a9b5e1
+
+The checklist descriptions are shortened excerpts from those pinned sources.

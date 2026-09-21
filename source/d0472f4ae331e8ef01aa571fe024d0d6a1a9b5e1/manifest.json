@@ -1,0 +1,8 @@
+{
+  "commit": "d0472f4ae331e8ef01aa571fe024d0d6a1a9b5e1",
+  "files": {
+    "docs/registry/attributes/gen-ai.md": "cb4252779ffcce5cde9214013b40f607b67208f14d71950061800f7fc2bb3d41"
+  },
+  "raw_root": "https://raw.githubusercontent.com/open-telemetry/semantic-conventions/d0472f4ae331e8ef01aa571fe024d0d6a1a9b5e1",
+  "repository": "https://github.com/open-telemetry/semantic-conventions"
+}

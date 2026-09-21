@@ -1,0 +1,19 @@
+[project]
+name = "otel-genai-checklist"
+version = "0.1.0"
+description = "Reproducible OpenTelemetry GenAI attribute checklist PDF"
+requires-python = ">=3.12"
+dependencies = [
+  "jinja2>=3.1,<4",
+  "weasyprint>=66,<67",
+]
+
+[dependency-groups]
+dev = [
+  "pypdf>=6,<7",
+  "pytest>=8,<9",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

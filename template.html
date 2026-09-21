@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Compiled from OpenTelemetry semantic conventions">
+  <meta name="description" content="Unofficial practical checklist compiled from pinned OpenTelemetry GenAI semantic conventions.">
+  <title>{{ title }}{% if edition == "short" %} - Short{% endif %}</title>
+</head>
+<body class="edition-{{ edition }}">
+  {% import "partials/macros.html" as ui with context %}
+  {% if edition == "full" %}
+  <section class="cover" id="cover">
+    <div class="cover-rule"></div>
+    <p class="eyebrow">Practical instrumentation reference</p>
+    <h1>{{ title }}</h1>
+    <p class="cover-subtitle">{{ subtitle }}</p>
+    <div class="cover-grid">
+      <div>
+        <span class="meta-label">Source repositories</span>
+        <a href="{{ repo_url }}">{{ repo_url }}</a>
+        <a href="{{ legacy_repo_url }}">{{ legacy_repo_url }}</a>
+      </div>
+      <div>
+        <span class="meta-label">Pinned commits</span>
+        <a class="mono" href="{{ repo_url }}/tree/{{ sha }}">{{ sha }}</a>
+        <a class="mono" href="{{ legacy_repo_url }}/tree/{{ legacy_sha }}">{{ legacy_sha }}</a>
+      </div>
+      <div>
+        <span class="meta-label">Compiled</span>
+        <span>{{ compiled_date }}</span>
+      </div>
+      <div>
+        <span class="meta-label">Registry snapshot</span>
+        <span>{{ registry_count }} <span class="mono">gen_ai.*</span> attributes</span>
+      </div>
+    </div>
+    <div class="cover-note">
+      <strong>Unofficial compilation</strong>
+      <p>Not an OpenTelemetry publication.</p>
+    </div>
+    <p class="license">Source material is licensed under the Apache License, Version 2.0. See the repository <a href="{{ repo_url }}/blob/{{ sha }}/LICENSE">LICENSE</a>.</p>
+  </section>
+
+  <section class="howto" id="how-to-use">
+    <p class="eyebrow">Read this first</p>
+    <h2>How to use this checklist</h2>
+    <div class="howto-grid">
+      <div class="steps">
+        <div class="step"><span>01</span><p>Choose the signal and operation that match the boundary you are instrumenting.</p></div>
+        <div class="step"><span>02</span><p>Apply the published span name and span kind where the source defines them.</p></div>
+        <div class="step"><span>03</span><p>Work down the rows in requirement order. Keep each source condition attached to its row.</p></div>
+        <div class="step"><span>04</span><p>Treat content-bearing opt-in fields carefully; the source warns that several may contain sensitive information.</p></div>
+        <div class="step"><span>05</span><p>Use Appendix A to look up every registry entry, including attributes not assigned to one checklist here.</p></div>
+      </div>
+      <aside class="legend-panel">
+        <h3>Requirement legend</h3>
+        <div class="legend-row"><span class="pill required">Required</span><span>Published as required for that signal.</span></div>
+        <div class="legend-row"><span class="pill conditional">Conditionally required</span><span>Required when the source condition applies.</span></div>
+        <div class="legend-row"><span class="pill recommended">Recommended</span><span>Published as recommended, including any row condition.</span></div>
+        <div class="legend-row"><span class="pill opt-in">Opt-in</span><span>Published as opt-in rather than captured by default.</span></div>
+        <h3>Stability legend</h3>
+        <div class="legend-row"><span class="stability stable">Stable</span><span>Stable in the pinned source.</span></div>
+        <div class="legend-row"><span class="stability rc">Release Candidate</span><span>Release Candidate in the pinned source.</span></div>
+        <div class="legend-row"><span class="stability development">Development</span><span>Development in the pinned source.</span></div>
+      </aside>
+    </div>
+    <p class="registry-move-note">On opentelemetry.io, every current GenAI attribute carries a Deprecated badge only because the conventions moved to the new repository. This checklist follows that new GenAI semantic conventions repository; the separate table below lists the ten names that are actually deprecated.</p>
+    <section class="deprecated-section" id="deprecated-do-not-use">
+      <div class="table-title-row">
+        <h3>Deprecated - do not use</h3>
+        <a class="source-link" href="{{ deprecated[0].source_url }}">old registry source ↗</a>
+      </div>
+      <table class="deprecated-table">
+        <colgroup><col class="deprecated-attribute"><col class="deprecated-replacement"><col class="deprecated-note"></colgroup>
+        <thead><tr><th>Attribute</th><th>What to use instead</th><th>Note</th></tr></thead>
+        <tbody>
+        {% for row in deprecated %}
+          <tr><td><code>{{ row.name }}</code></td><td>{{ row.replacement_text }}</td><td>{{ row.deprecation_note }}</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </section>
+    <div class="scope-note">
+      <strong>Scope.</strong> Attribute names, types, requirement levels, stability, descriptions, examples, metric metadata, and span conventions are compiled only from the pinned repository files. Descriptions and examples are exact source text or shortened exact prefixes.
+    </div>
+  </section>
+
+  {% for section in sections %}
+  <section class="document-section" id="{{ section.id }}">
+    <p class="eyebrow">{{ section.kicker }}</p>
+    <h2>{{ section.title }}</h2>
+    <p class="section-intro">{{ section.intro }}</p>
+    {% for table in section.tables %}{{ ui.attribute_table(table) }}{% endfor %}
+  </section>
+  {% endfor %}
+
+  <section class="document-section" id="metrics">
+    <p class="eyebrow">Measurements</p>
+    <h2>Metrics</h2>
+    <p class="section-intro">Each metric row preserves its published instrument type, UCUM unit, stability, and attribute set.</p>
+    {% for metric in metrics %}
+    <article class="metric-block">
+      <div class="table-title-row"><h3><code>{{ metric.name }}</code></h3><a class="source-link" href="{{ metric.source_url }}">source ↗</a></div>
+      <table class="metric-meta"><thead><tr><th>Instrument</th><th>Unit</th><th>Stability</th><th>Description</th></tr></thead><tbody><tr><td>{{ metric.instrument }}</td><td><code>{{ metric.unit }}</code></td><td><span class="stability {{ metric.stability|lower|replace(' ', '-') }}">{{ metric.stability }}</span></td><td>{{ metric.description }}</td></tr></tbody></table>
+      <table class="metric-attributes"><thead><tr><th>☐</th><th>Key attribute</th><th>Requirement</th></tr></thead><tbody>
+        {% for row in metric.attributes %}<tr><td class="tick-cell">☐</td><td><code>{{ row.name }}</code></td><td>{{ ui.requirement(row) }}</td></tr>{% endfor %}
+      </tbody></table>
+    </article>
+    {% endfor %}
+  </section>
+
+  <section class="document-section" id="mcp">
+    <p class="eyebrow">Model Context Protocol</p>
+    <h2>MCP</h2>
+    <p class="section-intro">The MCP source defines client and server spans plus four duration metrics. Its tables also reference GenAI tool and prompt attributes where applicable.</p>
+    {% for table in mcp_spans %}{{ ui.attribute_table(table) }}{% endfor %}
+    <h3 class="subsection-title">MCP metrics</h3>
+    {% for metric in mcp_metrics %}
+    <article class="metric-block compact">
+      <div class="table-title-row"><h3><code>{{ metric.name }}</code></h3><a class="source-link" href="{{ metric.source_url }}">source ↗</a></div>
+      <table class="metric-meta"><thead><tr><th>Instrument</th><th>Unit</th><th>Stability</th><th>Description</th></tr></thead><tbody><tr><td>{{ metric.instrument }}</td><td><code>{{ metric.unit }}</code></td><td><span class="stability {{ metric.stability|lower|replace(' ', '-') }}">{{ metric.stability }}</span></td><td>{{ metric.description }}</td></tr></tbody></table>
+      <table class="metric-attributes"><thead><tr><th>☐</th><th>Key attribute</th><th>Requirement</th></tr></thead><tbody>
+        {% for row in metric.attributes %}<tr><td class="tick-cell">☐</td><td><code>{{ row.name }}</code></td><td>{{ ui.requirement(row) }}</td></tr>{% endfor %}
+      </tbody></table>
+    </article>
+    {% endfor %}
+  </section>
+
+  <section class="document-section" id="provider-additions">
+    <p class="eyebrow">Provider-specific conventions</p>
+    <h2>Provider-specific additions</h2>
+    <p class="section-intro">This section lists only provider-page attribute keys absent from the generic GenAI signal pages. Provider span conventions are retained even when no unique key is added.</p>
+    {% for provider in providers %}
+    <article class="checklist-block provider-block">
+      <div class="table-title-row"><h3>{{ provider.name }}</h3><a class="source-link" href="{{ provider.source_url }}">source ↗</a></div>
+      {{ ui.conventions(provider.conventions) }}
+      <p class="note">{{ provider.note }}</p>
+      {% if provider.rows %}
+      <table class="attribute-table">
+        <colgroup><col class="tick"><col class="attribute"><col class="type"><col class="requirement"><col class="description"><col class="example"></colgroup>
+        <thead><tr><th>☐</th><th>Attribute</th><th>Type</th><th>Requirement level</th><th>Short description</th><th>Example</th></tr></thead>
+        <tbody>{% for row in provider.rows %}<tr><td class="tick-cell">☐</td><td class="attr-cell"><code>{{ row.name }}</code><span class="stability {{ row.stability|lower|replace(' ', '-') }}">{{ row.stability }}</span></td><td><code>{{ row.value_type }}</code></td><td>{{ ui.requirement(row) }}</td><td>{{ row.description }}</td><td class="example-cell">{{ row.example }}</td></tr>{% endfor %}</tbody>
+      </table>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </section>
+
+  <section class="document-section appendix" id="appendix-a">
+    <p class="eyebrow">Complete registry</p>
+    <h2>Appendix A · All <code>gen_ai.*</code> attributes</h2>
+    <p class="section-intro">{{ registry_count }} current attributes, alphabetized from the pinned GenAI repository registry. The {{ deprecated_count }} truly deprecated names from the old registry are intentionally excluded here and listed in “Deprecated - do not use.”</p>
+    <table class="registry-table">
+      <colgroup><col class="tick"><col class="attribute"><col class="type"><col class="stability-col"><col class="description"><col class="example"></colgroup>
+      <thead><tr><th>☐</th><th>Attribute</th><th>Type</th><th>Stability</th><th>Description</th><th>Example / deprecation</th></tr></thead>
+      <tbody>
+      {% for row in registry %}
+        <tr id="{{ row.anchor }}"><td class="tick-cell">☐</td><td class="attr-cell"><a href="{{ row.source_url }}"><code>{{ row.name }}</code></a></td><td><code>{{ row.value_type }}</code></td><td><span class="stability {{ row.stability|lower|replace(' ', '-') }}">{{ row.stability }}</span></td><td>{{ row.description }}</td><td class="example-cell">{% if row.deprecated %}<strong>Deprecated.</strong>{% if row.replacement %} Use <code>{{ row.replacement }}</code>.{% endif %}<br>{% endif %}{{ row.example }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="document-section appendix" id="appendix-b">
+    <p class="eyebrow">Traceability</p>
+    <h2>Appendix B · Source file mapping</h2>
+    <p class="section-intro">Every link is pinned: the GenAI repository at <code>{{ short_sha }}</code> and the earlier semantic-conventions repository at <code>{{ legacy_short_sha }}</code>. No moving-branch URL supplies checklist data.</p>
+    <table class="source-table"><thead><tr><th>Repository</th><th>Source file</th><th>Used for</th></tr></thead><tbody>
+      {% for item in source_mapping %}<tr><td><code>{{ item.repository }}</code></td><td><a href="{{ item.url }}"><code>{{ item.path }}</code></a></td><td>{{ item.section }}</td></tr>{% endfor %}
+    </tbody></table>
+  </section>
+  {% else %}
+    {% include "partials/short.html" %}
+  {% endif %}
+</body>
+</html>
